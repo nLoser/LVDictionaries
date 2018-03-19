@@ -11,8 +11,8 @@
 #import <sqlite3.h>
 
 static const char * dbpath = "";
-static const char * createsql = "create table if not exists lv_word(id integer primary key autoincrement, word text, symbol text, explian text, lookupnum integer)";
-static const char * insertsql = "insert into lv_word(word, symbol, explian, lookupnum) values(?,?,?,?)";
+static NSString * createsql = @"create table if not exists %@(id integer primary key autoincrement, word text, symbol text, explian text, lookupnum integer)";
+static NSString * insertsql = @"insert into %@(word, symbol, explian, lookupnum) values(?,?,?,?)";
 
 @interface LVFileManager() {
     sqlite3 * db;
@@ -53,32 +53,35 @@ static const char * insertsql = "insert into lv_word(word, symbol, explian, look
             [array[[item characterAtIndex:0]-65] addObject:item];
         }
     }
-    for (int i = 0; i < prefixArr.count; i++) {
-        NSLog(@"%@",array[i]);
-    }
-    
     NSString * dbPath = [[NSHomeDirectory() stringByAppendingPathComponent:@"Documents"] stringByAppendingPathComponent:@"Data"];
     [[NSFileManager defaultManager] removeItemAtPath:dbPath error:nil];
     [[NSFileManager defaultManager] createDirectoryAtPath:dbPath withIntermediateDirectories:YES attributes:nil error:nil];
     dbpath = [[dbPath stringByAppendingPathComponent:@"word.db"] UTF8String];
-    
     sqlite3_open(dbpath, &db);
-    sqlite3_exec(db, createsql, NULL, NULL, nil);
     
-//    for (id item in contentArray) {
-//        insertLocalDataWord(item, @"symte哈", @"忙起来", 1, db);
-//    }
+    for (int i = 0; i < prefixArr.count; i++) {
+        createTableWithData(array[i], [NSString stringWithFormat:@"%@_table",prefixArr[i]], self);
+    }
 }
 
-static void insertLocalDataWord(NSString * word, NSString * symbol, NSString * explian, int lookupnum, sqlite3* db) {
+static void createTableWithData(NSArray * data , NSString * tablename, LVFileManager * this) {
+    sqlite3_exec((this->db), [[NSString stringWithFormat:createsql,tablename] UTF8String], NULL, NULL, nil);
+    
+    const char * insert = [[NSString stringWithFormat:insertsql,tablename] UTF8String];
+    for (id item in data) {
+        insertLocalDataWord(insert ,item, @"symte哈", @"忙起来", 1, this->db);
+    }
+}
+
+static void insertLocalDataWord(const char * insertSql ,NSString * word, NSString * symbol, NSString * explian, int lookupnum, sqlite3* db) {
     sqlite3_stmt * stmt;
-    int result = sqlite3_prepare_v2(db, insertsql, -1, &stmt, NULL);
+    int result = sqlite3_prepare_v2(db, insertSql, -1, &stmt, NULL);
     if (result == SQLITE_OK) {
-        
         sqlite3_bind_text(stmt, 1, [word UTF8String], -1, NULL);
         sqlite3_bind_text(stmt, 2, [symbol UTF8String], -1, NULL);
         sqlite3_bind_text(stmt, 3, [explian UTF8String], -1, NULL);
         sqlite3_bind_int(stmt, 4, lookupnum);
+        NSLog(@"插入");
     }
     sqlite3_finalize(stmt);
 }
