@@ -34,7 +34,7 @@ static NSString * querysql = @"select * from %@_table where word = '%@' COLLATE 
 
 #pragma mark - Public Methodd
 
-- (void)checkLocalDatabase {
+- (BOOL)checkLocalDatabase {
     BOOL complished = [[[NSUserDefaults standardUserDefaults] valueForKey:@"Accomplished"] boolValue];
     if (!complished) {
         NSError * error = nil;
@@ -46,6 +46,7 @@ static NSString * querysql = @"select * from %@_table where word = '%@' COLLATE 
         dbpath = [[dbPath stringByAppendingPathComponent:@"word.db"] UTF8String];
         sqlite3_open(dbpath, &db);
     }
+    return complished;
 }
 
 - (void)searchWord:(NSString *)word result:(lookupReult)result{

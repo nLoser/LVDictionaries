@@ -13,6 +13,6 @@ typedef void(^lookupReult) (LVWordDetail *);
 
 @interface LVFileManager : NSObject
 + (instancetype)shareDefault;
-- (void)checkLocalDatabase;
+- (BOOL)checkLocalDatabase;
 - (void)searchWord:(NSString *)word result:(lookupReult)result;
 @end

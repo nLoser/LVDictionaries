@@ -25,11 +25,10 @@
     self.view.backgroundColor = BgColor;
     
     [self setupUI];
-}
-
-- (void)viewDidAppear:(BOOL)animated {
-    [super viewDidAppear:animated];
-    [[LVFileManager shareDefault] checkLocalDatabase];
+    
+    if ([[LVFileManager shareDefault] checkLocalDatabase]) {
+        [self.lookupField becomeFirstResponder];
+    }
 }
 
 - (void)setupUI {
@@ -42,6 +41,18 @@
 
 - (void)downKeyborad {
     [self.lookupField resignFirstResponder];
+}
+
+#pragma mark - <UITextFieldDelegate>
+
+- (BOOL)textFieldShouldReturn:(UITextField *)textField {
+    NSString * searchString = [textField.text stringByReplacingOccurrencesOfString:@" " withString:@""];
+    textField.text = searchString;
+    __weak typeof(self) weakSelf = self;
+    [[LVFileManager shareDefault] searchWord:searchString result:^(LVWordDetail * rt) {
+        weakSelf.wordDetailView.wordDetail = rt;
+    }];
+    return YES;
 }
 
 #pragma mark - Getter
@@ -67,15 +78,6 @@
         _wordDetailView = [[LVWordDetailView alloc] initWithFrame:CGRectMake(22, _lookupField.lvBottom + 10, _lookupField.lvWidth, [UIScreen mainScreen].bounds.size.height - 40 - _lookupField.lvBottom)];
     }
     return _wordDetailView;
-}
-
-- (BOOL)textFieldShouldReturn:(UITextField *)textField {
-    __weak typeof(self) weakSelf = self;
-    [[LVFileManager shareDefault] searchWord:textField.text result:^(LVWordDetail * rt) {
-        weakSelf.wordDetailView.wordDetail = rt;
-    }];
-    
-    return YES;
 }
 
 @end
