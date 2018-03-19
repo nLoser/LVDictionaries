@@ -9,11 +9,16 @@
 #import "LVVCControl.h"
 
 #import "MainTabController.h"
+#import "LookupController.h"
 
 @implementation LVVCControl
 
 + (UIViewController *)MainTabViewController {
-    UIViewController * vc = [[MainTabController alloc] init];
+    UITabBarController * vc = [[MainTabController alloc] init];
+    LookupController * lookup = [[LookupController alloc] init];
+    lookup.title = @"look";
+    vc.viewControllers = @[lookup];
+    vc.tabBar.translucent = NO;
     return vc;
 }
 

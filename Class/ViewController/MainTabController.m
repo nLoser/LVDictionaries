@@ -7,6 +7,7 @@
 //
 
 #import "MainTabController.h"
+#import "LVFileHelper.h"
 
 @interface MainTabController ()
 
@@ -16,7 +17,12 @@
 
 - (void)viewDidLoad {
     [super viewDidLoad];
-    self.view.backgroundColor = [UIColor whiteColor];
+}
+
+- (void)viewDidAppear:(BOOL)animated {
+    [super viewDidAppear:animated];
+    
+    [LVFileHelper checkLocalDatabase];
 }
 
 @end
