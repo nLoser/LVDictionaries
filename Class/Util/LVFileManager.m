@@ -13,6 +13,7 @@
 static const char * dbpath = "";
 static NSString * createsql = @"create table if not exists %@(id integer primary key autoincrement, word text, symbol text, explian text, lookupnum integer)";
 static NSString * insertsql = @"insert into %@(word, symbol, explian, lookupnum) values(?,?,?,?)";
+static NSString * querysql = @"select * from %@_table where word = '%@' COLLATE NOCASE;";
 
 @interface LVFileManager() {
     sqlite3 * db;
@@ -31,6 +32,8 @@ static NSString * insertsql = @"insert into %@(word, symbol, explian, lookupnum)
     return helper;
 }
 
+#pragma mark - Public Methodd
+
 - (void)checkLocalDatabase {
     BOOL complished = [[[NSUserDefaults standardUserDefaults] valueForKey:@"Accomplished"] boolValue];
     if (!complished) {
@@ -38,8 +41,38 @@ static NSString * insertsql = @"insert into %@(word, symbol, explian, lookupnum)
         _divideExpression = [NSRegularExpression regularExpressionWithPattern:@"\\[[^\\]]*\\]" options:NSRegularExpressionCaseInsensitive error:&error];
         NSString * content = [NSString stringWithContentsOfFile:[[NSBundle mainBundle] pathForResource:@"vocabulary" ofType:@"txt"] encoding:NSUTF16StringEncoding error:nil];
         [self updateLocalDataBase:[content componentsSeparatedByString:@"\n"]];
+    }else{
+        NSString * dbPath = [[NSHomeDirectory() stringByAppendingPathComponent:@"Documents"] stringByAppendingPathComponent:@"Data"];
+        dbpath = [[dbPath stringByAppendingPathComponent:@"word.db"] UTF8String];
+        sqlite3_open(dbpath, &db);
     }
 }
+
+- (void)searchWord:(NSString *)word result:(lookupReult)result{
+    if (word.length == 0) return;
+    
+    int code = [word characterAtIndex:0];
+    if (code < 97) {
+        
+    }
+    
+    const char * sql = [[NSString stringWithFormat:querysql,@"a",word] UTF8String];
+    sqlite3_stmt * stmt;
+    if (sqlite3_prepare_v2(db, sql, -1, &stmt, NULL) == SQLITE_OK) {
+        while (sqlite3_step(stmt) == SQLITE_ROW) {
+            LVWordDetail * rt = [LVWordDetail new];
+            rt.word = [NSString stringWithUTF8String:(char *)sqlite3_column_text(stmt, 1)];
+            rt.symbol = [NSString stringWithUTF8String:(char *)sqlite3_column_text(stmt, 2)];
+            rt.explian = [NSString stringWithUTF8String:(char *)sqlite3_column_text(stmt, 3)];
+            rt.lookupNum = sqlite3_column_int(stmt, 4);
+            result(rt);
+            break;
+        }
+    }
+    sqlite3_finalize(stmt);
+}
+
+#pragma mark - Private Method
 
 - (void)updateLocalDataBase:(NSArray *)contentArray {
     NSArray * prefixArr = @[@"a",@"b",@"c",@"d",@"e",@"f",@"g",@"h",@"i",@"j",@"k",@"l",@"m",

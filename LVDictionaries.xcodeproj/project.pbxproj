@@ -17,6 +17,7 @@
 		A959EBDE205F58AB001D0748 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = A959EBDD205F58AB001D0748 /* Assets.xcassets */; };
 		A959EBE1205F60D2001D0748 /* LookupController.m in Sources */ = {isa = PBXBuildFile; fileRef = A959EBE0205F60D2001D0748 /* LookupController.m */; };
 		A959EBE4205F62DC001D0748 /* LVFileManager.m in Sources */ = {isa = PBXBuildFile; fileRef = A959EBE3205F62DC001D0748 /* LVFileManager.m */; };
+		A959EBE8205FB135001D0748 /* LVWord.m in Sources */ = {isa = PBXBuildFile; fileRef = A959EBE7205FB135001D0748 /* LVWord.m */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -39,6 +40,8 @@
 		A959EBE0205F60D2001D0748 /* LookupController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = LookupController.m; sourceTree = "<group>"; };
 		A959EBE2205F62DC001D0748 /* LVFileManager.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = LVFileManager.h; sourceTree = "<group>"; };
 		A959EBE3205F62DC001D0748 /* LVFileManager.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = LVFileManager.m; sourceTree = "<group>"; };
+		A959EBE6205FB135001D0748 /* LVWord.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = LVWord.h; sourceTree = "<group>"; };
+		A959EBE7205FB135001D0748 /* LVWord.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = LVWord.m; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -114,6 +117,7 @@
 		A959EBCC205F5118001D0748 /* Class */ = {
 			isa = PBXGroup;
 			children = (
+				A959EBE5205FB114001D0748 /* Model */,
 				A959EBD1205F5172001D0748 /* Util */,
 				A959EBCD205F5127001D0748 /* ViewController */,
 			);
@@ -140,6 +144,15 @@
 				A959EBE3205F62DC001D0748 /* LVFileManager.m */,
 			);
 			path = Util;
+			sourceTree = "<group>";
+		};
+		A959EBE5205FB114001D0748 /* Model */ = {
+			isa = PBXGroup;
+			children = (
+				A959EBE6205FB135001D0748 /* LVWord.h */,
+				A959EBE7205FB135001D0748 /* LVWord.m */,
+			);
+			path = Model;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -268,6 +281,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				A959EBD4205F51AD001D0748 /* LVVCControl.m in Sources */,
+				A959EBE8205FB135001D0748 /* LVWord.m in Sources */,
 				A959EBE1205F60D2001D0748 /* LookupController.m in Sources */,
 				A959EBD0205F514E001D0748 /* MainTabController.m in Sources */,
 				A959EBE4205F62DC001D0748 /* LVFileManager.m in Sources */,

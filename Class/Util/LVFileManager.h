@@ -7,10 +7,12 @@
 //
 
 #import <Foundation/Foundation.h>
+#import "LVWord.h"
+
+typedef void(^lookupReult) (LVWordDetail *);
 
 @interface LVFileManager : NSObject
-
 + (instancetype)shareDefault;
 - (void)checkLocalDatabase;
-
+- (void)searchWord:(NSString *)word result:(lookupReult)result;
 @end
