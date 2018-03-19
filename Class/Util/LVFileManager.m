@@ -60,15 +60,16 @@ static NSString * insertsql = @"insert into %@(word, symbol, explian, lookupnum)
     sqlite3_open(dbpath, &db);
     
     for (int i = 0; i < prefixArr.count; i++) {
-        createTableWithData(array[i], [NSString stringWithFormat:@"%@_table",prefixArr[i]], self);
+        NSString * tablename = [NSString stringWithFormat:@"%@_table",prefixArr[i]];
+        sqlite3_exec(db, [[NSString stringWithFormat:createsql,tablename] UTF8String], NULL, NULL, nil);
+        createTableWithData(array[i], tablename, self);
     }
+    [[NSUserDefaults standardUserDefaults] setValue:@(YES) forKey:@"Accomplished"];
 }
 
 static void createTableWithData(NSArray * data , NSString * tablename, LVFileManager * this) {
-    sqlite3_exec((this->db), [[NSString stringWithFormat:createsql,tablename] UTF8String], NULL, NULL, nil);
-    
     const char * insert = [[NSString stringWithFormat:insertsql,tablename] UTF8String];
-    for (id item in data) {
+    for (NSString * item in data) {
         insertLocalDataWord(insert ,item, @"symte哈", @"忙起来", 1, this->db);
     }
 }
@@ -81,8 +82,11 @@ static void insertLocalDataWord(const char * insertSql ,NSString * word, NSStrin
         sqlite3_bind_text(stmt, 2, [symbol UTF8String], -1, NULL);
         sqlite3_bind_text(stmt, 3, [explian UTF8String], -1, NULL);
         sqlite3_bind_int(stmt, 4, lookupnum);
-        NSLog(@"插入");
     }
+    if (sqlite3_step(stmt) != SQLITE_DONE) {
+        NSLog(@"插入失败%d",sqlite3_step(stmt));
+    }
+    NSLog(@"插入");
     sqlite3_finalize(stmt);
 }
 
