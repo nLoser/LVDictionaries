@@ -25,6 +25,10 @@
     self.view.backgroundColor = BgColor;
     
     [self setupUI];
+}
+
+- (void)viewDidAppear:(BOOL)animated {
+    [super viewDidAppear:animated];
     
     if ([[LVFileManager shareDefault] checkLocalDatabase]) {
         [self.lookupField becomeFirstResponder];
