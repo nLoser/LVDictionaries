@@ -8,6 +8,7 @@
 
 #import "LVFileHelper.h"
 #import "MBProgressHUD.h"
+#import <sqlite3.h>
 
 @implementation LVFileHelper
 
@@ -20,7 +21,15 @@
 }
 
 static void updateLocalDataBase(NSArray * contentArray) {
+    //创建并且打开数据库
     
+    NSString * dbPath = [[NSHomeDirectory() stringByAppendingPathComponent:@"Documents"] stringByAppendingPathComponent:@"word.db"];
+    
+    sqlite3 * db;
+    int rt = sqlite3_open("dsa", &db);
+    
+    char * errorMsg; //
+    char * creatSql = "";
 }
 
 @end
