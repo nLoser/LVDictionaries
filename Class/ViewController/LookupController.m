@@ -24,6 +24,11 @@
     [self setupUI];
 }
 
+- (void)viewDidAppear:(BOOL)animated {
+    [super viewDidAppear:animated];
+    [[LVFileManager shareDefault] checkLocalDatabase];
+}
+
 - (void)setupUI {
     [self.view addSubview:self.lookupField];
     [self.view addSubview:self.lable];
@@ -42,14 +47,13 @@
     if (!_lookupField) {
         _lookupField = [[UITextField alloc] initWithFrame:CGRectMake(22, 44, [UIScreen mainScreen].bounds.size.width-44, 45)];
         _lookupField.textAlignment = NSTextAlignmentCenter;
-        _lookupField.font = [UIFont boldSystemFontOfSize:25];
+        _lookupField.font = [UIFont boldSystemFontOfSize:20];
         _lookupField.textColor = Color2;
-        _lookupField.layer.cornerRadius = 10;
         _lookupField.backgroundColor = BgColor;
         _lookupField.layer.borderColor = Color1.CGColor;
         _lookupField.layer.borderWidth = 2;
         _lookupField.returnKeyType = UIReturnKeySearch;
-        _lookupField.placeholder = @"查询单词";
+        _lookupField.placeholder = @"look up";
         _lookupField.delegate = self;
     }
     return _lookupField;
@@ -68,6 +72,7 @@
     [[LVFileManager shareDefault] searchWord:textField.text result:^(LVWordDetail * rt) {
         weakSelf.lable.text = [NSString stringWithFormat:@"%@-%@-%@-%d",rt.word,rt.symbol,rt.explian,rt.lookupNum];
     }];
+    
     return YES;
 }
 

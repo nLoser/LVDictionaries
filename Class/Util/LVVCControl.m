@@ -15,10 +15,14 @@
 
 + (UIViewController *)MainTabViewController {
     UITabBarController * vc = [[MainTabController alloc] init];
-    LookupController * lookup = [[LookupController alloc] init];
-    lookup.title = @"look";
-    vc.viewControllers = @[lookup];
+    vc.viewControllers = @[[LVVCControl LoopupController]];
     vc.tabBar.translucent = NO;
+    return vc;
+}
+
++ (UIViewController *)LoopupController {
+    LookupController * vc = [[LookupController alloc] init];
+    vc.title = @"Loopup";
     return vc;
 }
 

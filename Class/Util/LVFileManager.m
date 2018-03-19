@@ -52,11 +52,10 @@ static NSString * querysql = @"select * from %@_table where word = '%@' COLLATE 
     if (word.length == 0) return;
     
     int code = [word characterAtIndex:0];
-    if (code < 97) {
-        
-    }
+    code += code<97 ? 32:0;
+    NSString * prefix = [NSString stringWithFormat:@"%c",code];
     
-    const char * sql = [[NSString stringWithFormat:querysql,@"a",word] UTF8String];
+    const char * sql = [[NSString stringWithFormat:querysql,prefix,word] UTF8String];
     sqlite3_stmt * stmt;
     if (sqlite3_prepare_v2(db, sql, -1, &stmt, NULL) == SQLITE_OK) {
         while (sqlite3_step(stmt) == SQLITE_ROW) {

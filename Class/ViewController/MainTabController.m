@@ -22,7 +22,7 @@
 - (void)viewDidAppear:(BOOL)animated {
     [super viewDidAppear:animated];
     
-    [[LVFileManager shareDefault] checkLocalDatabase];
+    
 }
 
 @end

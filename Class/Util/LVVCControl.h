@@ -17,5 +17,6 @@
 @interface LVVCControl : NSObject
 
 + (UIViewController *)MainTabViewController;
++ (UIViewController *)LoopupController;
 
 @end
