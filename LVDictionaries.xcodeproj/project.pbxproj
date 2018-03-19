@@ -18,6 +18,8 @@
 		A959EBE1205F60D2001D0748 /* LookupController.m in Sources */ = {isa = PBXBuildFile; fileRef = A959EBE0205F60D2001D0748 /* LookupController.m */; };
 		A959EBE4205F62DC001D0748 /* LVFileManager.m in Sources */ = {isa = PBXBuildFile; fileRef = A959EBE3205F62DC001D0748 /* LVFileManager.m */; };
 		A959EBE8205FB135001D0748 /* LVWord.m in Sources */ = {isa = PBXBuildFile; fileRef = A959EBE7205FB135001D0748 /* LVWord.m */; };
+		A959EBEC205FBC4D001D0748 /* LVView.m in Sources */ = {isa = PBXBuildFile; fileRef = A959EBEB205FBC4D001D0748 /* LVView.m */; };
+		A959EBF0205FBE0E001D0748 /* UIView+GetRect.m in Sources */ = {isa = PBXBuildFile; fileRef = A959EBEF205FBE0E001D0748 /* UIView+GetRect.m */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -42,6 +44,11 @@
 		A959EBE3205F62DC001D0748 /* LVFileManager.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = LVFileManager.m; sourceTree = "<group>"; };
 		A959EBE6205FB135001D0748 /* LVWord.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = LVWord.h; sourceTree = "<group>"; };
 		A959EBE7205FB135001D0748 /* LVWord.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = LVWord.m; sourceTree = "<group>"; };
+		A959EBEA205FBC4D001D0748 /* LVView.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = LVView.h; sourceTree = "<group>"; };
+		A959EBEB205FBC4D001D0748 /* LVView.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = LVView.m; sourceTree = "<group>"; };
+		A959EBEE205FBE0E001D0748 /* UIView+GetRect.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "UIView+GetRect.h"; sourceTree = "<group>"; };
+		A959EBEF205FBE0E001D0748 /* UIView+GetRect.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "UIView+GetRect.m"; sourceTree = "<group>"; };
+		A959EBF4205FBEA1001D0748 /* Global.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = Global.h; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -117,6 +124,7 @@
 		A959EBCC205F5118001D0748 /* Class */ = {
 			isa = PBXGroup;
 			children = (
+				A959EBE9205FBC36001D0748 /* View */,
 				A959EBE5205FB114001D0748 /* Model */,
 				A959EBD1205F5172001D0748 /* Util */,
 				A959EBCD205F5127001D0748 /* ViewController */,
@@ -138,10 +146,12 @@
 		A959EBD1205F5172001D0748 /* Util */ = {
 			isa = PBXGroup;
 			children = (
+				A959EBED205FBE07001D0748 /* Category */,
 				A959EBD2205F51AD001D0748 /* LVVCControl.h */,
 				A959EBD3205F51AD001D0748 /* LVVCControl.m */,
 				A959EBE2205F62DC001D0748 /* LVFileManager.h */,
 				A959EBE3205F62DC001D0748 /* LVFileManager.m */,
+				A959EBF4205FBEA1001D0748 /* Global.h */,
 			);
 			path = Util;
 			sourceTree = "<group>";
@@ -153,6 +163,24 @@
 				A959EBE7205FB135001D0748 /* LVWord.m */,
 			);
 			path = Model;
+			sourceTree = "<group>";
+		};
+		A959EBE9205FBC36001D0748 /* View */ = {
+			isa = PBXGroup;
+			children = (
+				A959EBEA205FBC4D001D0748 /* LVView.h */,
+				A959EBEB205FBC4D001D0748 /* LVView.m */,
+			);
+			path = View;
+			sourceTree = "<group>";
+		};
+		A959EBED205FBE07001D0748 /* Category */ = {
+			isa = PBXGroup;
+			children = (
+				A959EBEE205FBE0E001D0748 /* UIView+GetRect.h */,
+				A959EBEF205FBE0E001D0748 /* UIView+GetRect.m */,
+			);
+			path = Category;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -280,11 +308,13 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				A959EBEC205FBC4D001D0748 /* LVView.m in Sources */,
 				A959EBD4205F51AD001D0748 /* LVVCControl.m in Sources */,
 				A959EBE8205FB135001D0748 /* LVWord.m in Sources */,
 				A959EBE1205F60D2001D0748 /* LookupController.m in Sources */,
 				A959EBD0205F514E001D0748 /* MainTabController.m in Sources */,
 				A959EBE4205F62DC001D0748 /* LVFileManager.m in Sources */,
+				A959EBF0205FBE0E001D0748 /* UIView+GetRect.m in Sources */,
 				A959EBC3205F4F7F001D0748 /* main.m in Sources */,
 				A959EBB5205F4F7F001D0748 /* AppDelegate.m in Sources */,
 			);

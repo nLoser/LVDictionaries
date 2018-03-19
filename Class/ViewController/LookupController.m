@@ -9,10 +9,13 @@
 #import "LookupController.h"
 #import "LVVCControl.h"
 #import "LVFileManager.h"
+#import "Global.h"
+#import "LVView.h"
+#import "UIView+GetRect.h"
 
 @interface LookupController ()<UITextFieldDelegate>
 @property (nonatomic, strong) UITextField * lookupField;
-@property (nonatomic, strong) UILabel * lable;
+@property (nonatomic, strong) LVWordDetailView * wordDetailView;
 @end
 
 @implementation LookupController
@@ -31,7 +34,7 @@
 
 - (void)setupUI {
     [self.view addSubview:self.lookupField];
-    [self.view addSubview:self.lable];
+    [self.view addSubview:self.wordDetailView];
     [self.view addGestureRecognizer:[[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(downKeyborad)]];
 }
 
@@ -59,18 +62,17 @@
     return _lookupField;
 }
 
-- (UILabel *)lable {
-    if (!_lable) {
-        _lable = [[UILabel alloc] initWithFrame:CGRectMake(22, 110, [UIScreen mainScreen].bounds.size.width-44, 50)];
-        _lable.font = [UIFont systemFontOfSize:12];
+- (LVWordDetailView *)wordDetailView{
+    if (!_wordDetailView) {
+        _wordDetailView = [[LVWordDetailView alloc] initWithFrame:CGRectMake(22, _lookupField.lvBottom + 10, _lookupField.lvWidth, [UIScreen mainScreen].bounds.size.height - 40 - _lookupField.lvBottom)];
     }
-    return _lable;
+    return _wordDetailView;
 }
 
 - (BOOL)textFieldShouldReturn:(UITextField *)textField {
     __weak typeof(self) weakSelf = self;
     [[LVFileManager shareDefault] searchWord:textField.text result:^(LVWordDetail * rt) {
-        weakSelf.lable.text = [NSString stringWithFormat:@"%@-%@-%@-%d",rt.word,rt.symbol,rt.explian,rt.lookupNum];
+        weakSelf.wordDetailView.wordDetail = rt;
     }];
     
     return YES;
