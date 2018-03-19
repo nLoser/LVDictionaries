@@ -130,6 +130,8 @@ static void insertLocalDataWord(const char * insertSql ,NSString * word, NSStrin
     }
     if (sqlite3_step(stmt) != SQLITE_DONE) {
         NSLog(@"Insert failed%@",word);
+    }else {
+        NSLog(@"%@",word);
     }
     sqlite3_finalize(stmt);
 }

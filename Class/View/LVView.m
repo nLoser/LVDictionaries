@@ -15,7 +15,9 @@
 
 @end
 
-@interface LVWordDetailView()
+@interface LVWordDetailView() {
+    BOOL _load;
+}
 @property (nonatomic, strong) UILabel * wordLabel;
 @property (nonatomic, strong) UILabel * symbolLabel;
 @property (nonatomic, strong) UITextView * explainView;
@@ -24,11 +26,13 @@
 @implementation LVWordDetailView
 
 - (void)setWordDetail:(LVWordDetail *)wordDetail {
-    _wordDetail = wordDetail;
+    if (!_load) {
+        [self addSubview:self.wordLabel];
+        [self addSubview:self.symbolLabel];
+        [self addSubview:self.explainView];
+    }
     
-    [self addSubview:self.wordLabel];
-    [self addSubview:self.symbolLabel];
-    [self addSubview:self.explainView];
+    _wordDetail = wordDetail;
     
     self.wordLabel.text = wordDetail.word;
     self.symbolLabel.text = wordDetail.symbol;
@@ -41,9 +45,9 @@
 
 - (UILabel *)wordLabel {
     if (!_wordLabel) {
-        _wordLabel = [[UILabel alloc] initWithFrame:CGRectMake(0, 0, self.lvWidth, 40)];
+        _wordLabel = [[UILabel alloc] initWithFrame:CGRectMake(0, 0, self.lvWidth, 43)];
         _wordLabel.textColor = Color2;
-        _wordLabel.font = [UIFont boldSystemFontOfSize:40];
+        _wordLabel.font = [UIFont boldSystemFontOfSize:38];
     }
     return _wordLabel;
 }
