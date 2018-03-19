@@ -16,6 +16,7 @@ static NSString * insertsql = @"insert into %@(word, symbol, explian, lookupnum)
 
 @interface LVFileManager() {
     sqlite3 * db;
+    NSRegularExpression * _divideExpression;
 }
 @end
 
@@ -33,6 +34,8 @@ static NSString * insertsql = @"insert into %@(word, symbol, explian, lookupnum)
 - (void)checkLocalDatabase {
     BOOL complished = [[[NSUserDefaults standardUserDefaults] valueForKey:@"Accomplished"] boolValue];
     if (!complished) {
+        NSError * error = nil;
+        _divideExpression = [NSRegularExpression regularExpressionWithPattern:@"\\[[^\\]]*\\]" options:NSRegularExpressionCaseInsensitive error:&error];
         NSString * content = [NSString stringWithContentsOfFile:[[NSBundle mainBundle] pathForResource:@"vocabulary" ofType:@"txt"] encoding:NSUTF16StringEncoding error:nil];
         [self updateLocalDataBase:[content componentsSeparatedByString:@"\n"]];
     }
@@ -53,13 +56,14 @@ static NSString * insertsql = @"insert into %@(word, symbol, explian, lookupnum)
             [array[[item characterAtIndex:0]-65] addObject:item];
         }
     }
+    
     NSString * dbPath = [[NSHomeDirectory() stringByAppendingPathComponent:@"Documents"] stringByAppendingPathComponent:@"Data"];
     [[NSFileManager defaultManager] removeItemAtPath:dbPath error:nil];
     [[NSFileManager defaultManager] createDirectoryAtPath:dbPath withIntermediateDirectories:YES attributes:nil error:nil];
     dbpath = [[dbPath stringByAppendingPathComponent:@"word.db"] UTF8String];
     sqlite3_open(dbpath, &db);
     
-    for (int i = 0; i < 2; i++) {
+    for (int i = 0; i < prefixArr.count; i++) {
         NSString * tablename = [NSString stringWithFormat:@"%@_table",prefixArr[i]];
         sqlite3_exec(db, [[NSString stringWithFormat:createsql,tablename] UTF8String], NULL, NULL, nil);
         createTableWithData(array[i], tablename, self);
@@ -70,7 +74,16 @@ static NSString * insertsql = @"insert into %@(word, symbol, explian, lookupnum)
 static void createTableWithData(NSArray * data , NSString * tablename, LVFileManager * this) {
     const char * insert = [[NSString stringWithFormat:insertsql,tablename] UTF8String];
     for (NSString * item in data) {
-        insertLocalDataWord(insert ,item, @"symte哈", @"忙起来", 1, this->db);
+        //1234 : 23(1-2) 1(1) 4(3 1)
+        @autoreleasepool{
+            NSMutableArray * divideData = [NSMutableArray arrayWithCapacity:3];
+            [this->_divideExpression enumerateMatchesInString:item options:0 range:NSMakeRange(0, item.length) usingBlock:^(NSTextCheckingResult * _Nullable result, NSMatchingFlags flags, BOOL * _Nonnull stop) {
+                [divideData addObject:[item substringToIndex:result.range.location]];
+                [divideData addObject:[item substringWithRange:NSMakeRange(result.range.location, result.range.length)]];
+                [divideData addObject:[item substringWithRange:NSMakeRange(result.range.location+result.range.length, item.length-(result.range.location+result.range.length))]];
+            }];
+            insertLocalDataWord(insert ,divideData[0], divideData[1], divideData[2], 1, this->db);
+        }
     }
 }
 
