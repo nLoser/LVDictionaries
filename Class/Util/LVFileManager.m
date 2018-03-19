@@ -6,7 +6,7 @@
 //  Copyright © 2018年 LV. All rights reserved.
 //
 
-#import "LVFileHelper.h"
+#import "LVFileManager.h"
 #import "MBProgressHUD.h"
 #import <sqlite3.h>
 
@@ -14,18 +14,18 @@ static const char * dbpath = "";
 static const char * createsql = "create table if not exists lv_word(id integer primary key autoincrement, word text, symbol text, explian text, lookupnum integer)";
 static const char * insertsql = "insert into lv_word(word, symbol, explian, lookupnum) values(?,?,?,?)";
 
-@interface LVFileHelper() {
+@interface LVFileManager() {
     sqlite3 * db;
 }
 @end
 
-@implementation LVFileHelper
+@implementation LVFileManager
 
 + (instancetype)shareDefault {
-    static LVFileHelper * helper = nil;
+    static LVFileManager * helper = nil;
     static dispatch_once_t onceToken;
     dispatch_once(&onceToken, ^{
-        helper = [LVFileHelper new];
+        helper = [LVFileManager new];
     });
     return helper;
 }
@@ -80,10 +80,6 @@ static void insertLocalDataWord(NSString * word, NSString * symbol, NSString * e
         sqlite3_bind_text(stmt, 3, [explian UTF8String], -1, NULL);
         sqlite3_bind_int(stmt, 4, lookupnum);
     }
-    if (sqlite3_step(stmt) == SQLITE_DONE) {
-        NSLog(@"插入成功%@",word);
-    }
-    
     sqlite3_finalize(stmt);
 }
 

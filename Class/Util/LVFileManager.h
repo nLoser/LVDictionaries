@@ -8,7 +8,7 @@
 
 #import <Foundation/Foundation.h>
 
-@interface LVFileHelper : NSObject
+@interface LVFileManager : NSObject
 
 + (instancetype)shareDefault;
 - (void)checkLocalDatabase;

@@ -7,7 +7,7 @@
 //
 
 #import "MainTabController.h"
-#import "LVFileHelper.h"
+#import "LVFileManager.h"
 
 @interface MainTabController ()
 
@@ -22,7 +22,7 @@
 - (void)viewDidAppear:(BOOL)animated {
     [super viewDidAppear:animated];
     
-    [[LVFileHelper shareDefault] checkLocalDatabase];
+    [[LVFileManager shareDefault] checkLocalDatabase];
 }
 
 @end
