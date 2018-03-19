@@ -10,6 +10,7 @@
 
 @interface LVFileHelper : NSObject
 
-+ (void)checkLocalDatabase;
++ (instancetype)shareDefault;
+- (void)checkLocalDatabase;
 
 @end
