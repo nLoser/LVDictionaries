@@ -59,7 +59,7 @@ static NSString * insertsql = @"insert into %@(word, symbol, explian, lookupnum)
     dbpath = [[dbPath stringByAppendingPathComponent:@"word.db"] UTF8String];
     sqlite3_open(dbpath, &db);
     
-    for (int i = 0; i < prefixArr.count; i++) {
+    for (int i = 0; i < 2; i++) {
         NSString * tablename = [NSString stringWithFormat:@"%@_table",prefixArr[i]];
         sqlite3_exec(db, [[NSString stringWithFormat:createsql,tablename] UTF8String], NULL, NULL, nil);
         createTableWithData(array[i], tablename, self);
@@ -84,9 +84,8 @@ static void insertLocalDataWord(const char * insertSql ,NSString * word, NSStrin
         sqlite3_bind_int(stmt, 4, lookupnum);
     }
     if (sqlite3_step(stmt) != SQLITE_DONE) {
-        NSLog(@"插入失败%d",sqlite3_step(stmt));
+        NSLog(@"Insert failed%@",word);
     }
-    NSLog(@"插入");
     sqlite3_finalize(stmt);
 }
 
