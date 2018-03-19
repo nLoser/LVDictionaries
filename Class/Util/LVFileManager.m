@@ -74,7 +74,6 @@ static NSString * insertsql = @"insert into %@(word, symbol, explian, lookupnum)
 static void createTableWithData(NSArray * data , NSString * tablename, LVFileManager * this) {
     const char * insert = [[NSString stringWithFormat:insertsql,tablename] UTF8String];
     for (NSString * item in data) {
-        //1234 : 23(1-2) 1(1) 4(3 1)
         @autoreleasepool{
             NSMutableArray * divideData = [NSMutableArray arrayWithCapacity:3];
             [this->_divideExpression enumerateMatchesInString:item options:0 range:NSMakeRange(0, item.length) usingBlock:^(NSTextCheckingResult * _Nullable result, NSMatchingFlags flags, BOOL * _Nonnull stop) {
