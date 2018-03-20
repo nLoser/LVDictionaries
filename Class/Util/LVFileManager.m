@@ -81,14 +81,14 @@ static NSString * querysql = @"select * from %@_table where word = '%@' COLLATE 
     for (int i = 0; i < prefixArr.count; i ++) {
         array[i] = [NSMutableArray arrayWithCapacity:0];
     }
-    for (NSString * item in contentArray) {
-        int code = [item characterAtIndex:0];
+    [contentArray enumerateObjectsUsingBlock:^(NSString *  _Nonnull obj, NSUInteger idx, BOOL * _Nonnull stop) {
+        int code = [obj characterAtIndex:0];
         if (code >= 97) {
-            [array[[item characterAtIndex:0]-97] addObject:item];
+            [array[code-97] addObject:obj];
         }else {
-            [array[[item characterAtIndex:0]-65] addObject:item];
+            [array[code-65] addObject:obj];
         }
-    }
+    }];
     
     NSString * dbPath = [[NSHomeDirectory() stringByAppendingPathComponent:@"Documents"] stringByAppendingPathComponent:@"Data"];
     [[NSFileManager defaultManager] removeItemAtPath:dbPath error:nil];
