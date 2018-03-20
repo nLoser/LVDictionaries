@@ -18,6 +18,7 @@ static NSString * querysql = @"select * from %@_table where word = '%@' COLLATE 
 @interface LVFileManager() {
     sqlite3 * db;
     NSRegularExpression * _divideExpression;
+    NSOperationQueue * _queue;
 }
 @end
 
@@ -95,6 +96,8 @@ static NSString * querysql = @"select * from %@_table where word = '%@' COLLATE 
     [[NSFileManager defaultManager] createDirectoryAtPath:dbPath withIntermediateDirectories:YES attributes:nil error:nil];
     dbpath = [[dbPath stringByAppendingPathComponent:@"word.db"] UTF8String];
     sqlite3_open(dbpath, &db);
+    
+    _queue = [NSOperationQueue alloc];
     
     for (int i = 0; i < prefixArr.count; i++) {
         NSString * tablename = [NSString stringWithFormat:@"%@_table",prefixArr[i]];
