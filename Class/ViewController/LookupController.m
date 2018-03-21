@@ -25,6 +25,17 @@
     self.view.backgroundColor = BgColor;
     
     [self setupUI];
+    
+    dispatch_sync(dispatch_get_global_queue(0, 0), ^{
+        NSLog(@"--%@",[NSThread currentThread]);
+    });
+    dispatch_async(dispatch_get_main_queue(), ^{
+        NSLog(@"--%@",[NSThread currentThread]);
+    });
+    dispatch_apply(2, dispatch_get_global_queue(0, 0), ^(size_t t) {
+        NSLog(@"---%zu",t);
+    });
+    NSLog(@"done");
 }
 
 - (void)viewDidAppear:(BOOL)animated {

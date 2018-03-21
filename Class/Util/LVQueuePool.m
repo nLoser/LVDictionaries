@@ -110,7 +110,7 @@ static LVDispatchContext * LVDisplayContextGetForQos(NSQualityOfService qos) {
         case NSQualityOfServiceUserInitiated:{
             static dispatch_once_t onceToken;
             dispatch_once(&onceToken, ^{
-                int count = [NSProcessInfo processInfo].activeProcessorCount;
+                int count = (int)[NSProcessInfo processInfo].activeProcessorCount;
                 count = count < 1 ? 1: count > MAX_QUEUE_COUNT ? MAX_QUEUE_COUNT : count;
                 context[1] = LVDispatchContextCreate("com.lv.user-initiated", count, qos);
             });
@@ -120,7 +120,7 @@ static LVDispatchContext * LVDisplayContextGetForQos(NSQualityOfService qos) {
         case NSQualityOfServiceUtility: {
             static dispatch_once_t onceToken;
             dispatch_once(&onceToken, ^{
-                int count = [NSProcessInfo processInfo].activeProcessorCount;
+                int count = (int)[NSProcessInfo processInfo].activeProcessorCount;
                 count = count < 1 ? 1: count > MAX_QUEUE_COUNT ? MAX_QUEUE_COUNT : count;
                 context[2] = LVDispatchContextCreate("com.lv.user-utility", count, qos);
             });
@@ -130,7 +130,7 @@ static LVDispatchContext * LVDisplayContextGetForQos(NSQualityOfService qos) {
         case NSQualityOfServiceBackground: {
             static dispatch_once_t onceToken;
             dispatch_once(&onceToken, ^{
-                int count = [NSProcessInfo processInfo].activeProcessorCount;
+                int count = (int)[NSProcessInfo processInfo].activeProcessorCount;
                 count = count < 1 ? 1: count > MAX_QUEUE_COUNT ? MAX_QUEUE_COUNT : count;
                 context[3] = LVDispatchContextCreate("com.lv.user-background", count, qos);
             });
@@ -141,7 +141,7 @@ static LVDispatchContext * LVDisplayContextGetForQos(NSQualityOfService qos) {
         default: {
             static dispatch_once_t onceToken;
             dispatch_once(&onceToken, ^{
-                int count = [NSProcessInfo processInfo].activeProcessorCount;
+                int count = (int)[NSProcessInfo processInfo].activeProcessorCount;
                 count = count < 1 ? 1: count > MAX_QUEUE_COUNT ? MAX_QUEUE_COUNT : count;
                 context[4] = LVDispatchContextCreate("com.lv.user-default", count, qos);
             });
