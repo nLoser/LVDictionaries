@@ -7,8 +7,10 @@
 //
 
 #import "LVFileManager.h"
-#import "MBProgressHUD.h"
 #import <sqlite3.h>
+#import <pthread.h>
+#import "MBProgressHUD.h"
+#import "LVQueuePool.h"
 
 static const char * dbpath = "";
 static NSString * createsql = @"create table if not exists %@(id integer primary key autoincrement, word text, symbol text, explian text, lookupnum integer)";
@@ -99,16 +101,22 @@ static NSString * querysql = @"select * from %@_table where word = '%@' COLLATE 
     
     _queue = [NSOperationQueue alloc];
     
-    for (int i = 0; i < prefixArr.count; i++) {
-        NSString * tablename = [NSString stringWithFormat:@"%@_table",prefixArr[i]];
-        sqlite3_exec(db, [[NSString stringWithFormat:createsql,tablename] UTF8String], NULL, NULL, nil);
-        createTableWithData(array[i], tablename, self);
-    }
-    [[NSUserDefaults standardUserDefaults] setValue:@(YES) forKey:@"Accomplished"];
+    dispatch_async(dispatch_get_global_queue(NSQualityOfServiceUserInteractive, 0), ^{
+        for (int i = 0; i < prefixArr.count; i++) {
+            NSString * tablename = [NSString stringWithFormat:@"%@_table",prefixArr[i]];
+            sqlite3_exec(db, [[NSString stringWithFormat:createsql,tablename] UTF8String], NULL, NULL, nil);
+            createTableWithData(array[i], tablename, self);
+        }
+        [[NSUserDefaults standardUserDefaults] setValue:@(YES) forKey:@"Accomplished"];
+    });
 }
 
 static void createTableWithData(NSArray * data , NSString * tablename, LVFileManager * this) {
+    sqlite3_exec(this->db, "begin", 0, 0, 0);
     const char * insert = [[NSString stringWithFormat:insertsql,tablename] UTF8String];
+    sqlite3_stmt * stmt;
+    sqlite3_prepare_v2(this->db, insert, -1, &stmt, NULL);
+    
     for (NSString * item in data) {
         @autoreleasepool{
             NSMutableArray * divideData = [NSMutableArray arrayWithCapacity:3];
@@ -117,26 +125,27 @@ static void createTableWithData(NSArray * data , NSString * tablename, LVFileMan
                 [divideData addObject:[item substringWithRange:NSMakeRange(result.range.location, result.range.length)]];
                 [divideData addObject:[item substringWithRange:NSMakeRange(result.range.location+result.range.length, item.length-(result.range.location+result.range.length))]];
             }];
-            insertLocalDataWord(insert ,divideData[0], divideData[1], divideData[2], 1, this->db);
+            insertLocalDataWord(stmt ,divideData[0], divideData[1], divideData[2], 1, this->db);
         }
     }
+    sqlite3_finalize(stmt);
+    sqlite3_exec(this->db, "commit", 0, 0, 0);
 }
 
-static void insertLocalDataWord(const char * insertSql ,NSString * word, NSString * symbol, NSString * explian, int lookupnum, sqlite3* db) {
-    sqlite3_stmt * stmt;
-    int result = sqlite3_prepare_v2(db, insertSql, -1, &stmt, NULL);
-    if (result == SQLITE_OK) {
-        sqlite3_bind_text(stmt, 1, [word UTF8String], -1, NULL);
-        sqlite3_bind_text(stmt, 2, [symbol UTF8String], -1, NULL);
-        sqlite3_bind_text(stmt, 3, [explian UTF8String], -1, NULL);
-        sqlite3_bind_int(stmt, 4, lookupnum);
-    }
+static void insertLocalDataWord(sqlite3_stmt * stmt ,NSString * word, NSString * symbol, NSString * explian, int lookupnum, sqlite3* db) {
+    
+    sqlite3_reset(stmt);
+    sqlite3_bind_text(stmt, 1, [word UTF8String], -1, NULL);
+    sqlite3_bind_text(stmt, 2, [symbol UTF8String], -1, NULL);
+    sqlite3_bind_text(stmt, 3, [explian UTF8String], -1, NULL);
+    sqlite3_bind_int(stmt, 4, lookupnum);
+    
     if (sqlite3_step(stmt) != SQLITE_DONE) {
-        NSLog(@"Insert failed%@",word);
+        NSLog(@"Insert failed-%@",word);
     }else {
         NSLog(@"%@",word);
     }
-    sqlite3_finalize(stmt);
+    
 }
 
 @end

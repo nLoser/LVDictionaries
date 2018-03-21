@@ -72,18 +72,4 @@
     return _explainView;
 }
 
-+ (BOOL)resolveInstanceMethod:(SEL)sel {
-    NSLog(@"resolveInstanceMethod:%s",sel_getName(sel));
-    return NO;
-}
-
-- (id)forwardingTargetForSelector:(SEL)aSelector {
-    NSLog(@"forwardingTargetForSelector:%s",sel_getName(aSelector));
-    return nil;
-}
-
-- (void)forwardInvocation:(NSInvocation *)anInvocation {
-    NSLog(@"forwardInvocation:%@",anInvocation);
-}
-
 @end

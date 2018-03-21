@@ -9,5 +9,7 @@
 #import <Foundation/Foundation.h>
 
 @interface LVQueuePool : NSObject
-
+@property (nullable, nonatomic, readonly) NSString * name;
+- (dispatch_queue_t)queue;
+- (instancetype)initWithName:(NSString *)name queueCount:(NSUInteger)queueCount qos:(NSQualityOfService)qos;
 @end
