@@ -10,7 +10,6 @@
 #import <sqlite3.h>
 #import <pthread.h>
 #import "MBProgressHUD.h"
-#import "LVQueuePool.h"
 
 static const char * dbpath = "";
 static NSString * createsql = @"create table if not exists %@(id integer primary key autoincrement, word text, symbol text, explian text, lookupnum integer)";
@@ -128,12 +127,12 @@ static void createTableWithData(NSArray * data , NSString * tablename, LVFileMan
             insertLocalDataWord(stmt ,divideData[0], divideData[1], divideData[2], 1, this->db);
         }
     }
+    
     sqlite3_finalize(stmt);
     sqlite3_exec(this->db, "commit", 0, 0, 0);
 }
 
 static void insertLocalDataWord(sqlite3_stmt * stmt ,NSString * word, NSString * symbol, NSString * explian, int lookupnum, sqlite3* db) {
-    
     sqlite3_reset(stmt);
     sqlite3_bind_text(stmt, 1, [word UTF8String], -1, NULL);
     sqlite3_bind_text(stmt, 2, [symbol UTF8String], -1, NULL);
@@ -145,7 +144,6 @@ static void insertLocalDataWord(sqlite3_stmt * stmt ,NSString * word, NSString *
     }else {
         NSLog(@"%@",word);
     }
-    
 }
 
 @end
