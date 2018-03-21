@@ -11,7 +11,6 @@
 		A959EBB5205F4F7F001D0748 /* AppDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = A959EBB4205F4F7F001D0748 /* AppDelegate.m */; };
 		A959EBC3205F4F7F001D0748 /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = A959EBC2205F4F7F001D0748 /* main.m */; };
 		A959EBCB205F502F001D0748 /* vocabulary.txt in Resources */ = {isa = PBXBuildFile; fileRef = A959EBCA205F502F001D0748 /* vocabulary.txt */; };
-		A959EBD0205F514E001D0748 /* MainTabController.m in Sources */ = {isa = PBXBuildFile; fileRef = A959EBCF205F514E001D0748 /* MainTabController.m */; };
 		A959EBD4205F51AD001D0748 /* LVVCControl.m in Sources */ = {isa = PBXBuildFile; fileRef = A959EBD3205F51AD001D0748 /* LVVCControl.m */; };
 		A959EBD6205F5364001D0748 /* Launch Screen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = A959EBD5205F5364001D0748 /* Launch Screen.storyboard */; };
 		A959EBDE205F58AB001D0748 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = A959EBDD205F58AB001D0748 /* Assets.xcassets */; };
@@ -33,8 +32,6 @@
 		A959EBC1205F4F7F001D0748 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		A959EBC2205F4F7F001D0748 /* main.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = main.m; sourceTree = "<group>"; };
 		A959EBCA205F502F001D0748 /* vocabulary.txt */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = vocabulary.txt; sourceTree = "<group>"; };
-		A959EBCE205F514E001D0748 /* MainTabController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = MainTabController.h; sourceTree = "<group>"; };
-		A959EBCF205F514E001D0748 /* MainTabController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = MainTabController.m; sourceTree = "<group>"; };
 		A959EBD2205F51AD001D0748 /* LVVCControl.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = LVVCControl.h; sourceTree = "<group>"; };
 		A959EBD3205F51AD001D0748 /* LVVCControl.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = LVVCControl.m; sourceTree = "<group>"; };
 		A959EBD5205F5364001D0748 /* Launch Screen.storyboard */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; path = "Launch Screen.storyboard"; sourceTree = "<group>"; };
@@ -138,8 +135,6 @@
 		A959EBCD205F5127001D0748 /* ViewController */ = {
 			isa = PBXGroup;
 			children = (
-				A959EBCE205F514E001D0748 /* MainTabController.h */,
-				A959EBCF205F514E001D0748 /* MainTabController.m */,
 				A959EBDF205F60D2001D0748 /* LookupController.h */,
 				A959EBE0205F60D2001D0748 /* LookupController.m */,
 			);
@@ -318,7 +313,6 @@
 				A959EBE8205FB135001D0748 /* LVWord.m in Sources */,
 				A95F1E772061101200C76BF4 /* LVQueuePool.m in Sources */,
 				A959EBE1205F60D2001D0748 /* LookupController.m in Sources */,
-				A959EBD0205F514E001D0748 /* MainTabController.m in Sources */,
 				A959EBE4205F62DC001D0748 /* LVFileManager.m in Sources */,
 				A959EBF0205FBE0E001D0748 /* UIView+GetRect.m in Sources */,
 				A959EBC3205F4F7F001D0748 /* main.m in Sources */,

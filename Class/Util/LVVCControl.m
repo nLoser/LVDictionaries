@@ -7,18 +7,9 @@
 //
 
 #import "LVVCControl.h"
-
-#import "MainTabController.h"
 #import "LookupController.h"
 
 @implementation LVVCControl
-
-+ (UIViewController *)MainTabViewController {
-    UITabBarController * vc = [[MainTabController alloc] init];
-    vc.viewControllers = @[[LVVCControl LoopupController]];
-    vc.tabBar.translucent = NO;
-    return vc;
-}
 
 + (UIViewController *)LoopupController {
     LookupController * vc = [[LookupController alloc] init];

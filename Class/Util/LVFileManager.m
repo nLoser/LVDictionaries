@@ -16,10 +16,10 @@ static NSString * createsql = @"create table if not exists %@(id integer primary
 static NSString * insertsql = @"insert into %@(word, symbol, explian, lookupnum) values(?,?,?,?)";
 static NSString * querysql = @"select * from %@_table where word = '%@' COLLATE NOCASE;";
 
-@interface LVFileManager() {
+@interface LVFileManager()<MBProgressHUDDelegate> {
     sqlite3 * db;
     NSRegularExpression * _divideExpression;
-    NSOperationQueue * _queue;
+    MBProgressHUD * _loadHUD;
 }
 @end
 
@@ -98,14 +98,26 @@ static NSString * querysql = @"select * from %@_table where word = '%@' COLLATE 
     dbpath = [[dbPath stringByAppendingPathComponent:@"word.db"] UTF8String];
     sqlite3_open(dbpath, &db);
     
-    _queue = [NSOperationQueue alloc];
+    _loadHUD = [MBProgressHUD showHUDAddedTo:[[UIApplication sharedApplication].windows lastObject] animated:YES];
+    _loadHUD.label.text = @"解压";
+    _loadHUD.label.font = [UIFont boldSystemFontOfSize:15];
+    _loadHUD.userInteractionEnabled = YES;
+    _loadHUD.delegate = self;
+    _loadHUD.mode = MBProgressHUDModeDeterminateHorizontalBar;
     
     dispatch_async(dispatch_get_global_queue(NSQualityOfServiceUserInteractive, 0), ^{
         for (int i = 0; i < prefixArr.count; i++) {
             NSString * tablename = [NSString stringWithFormat:@"%@_table",prefixArr[i]];
             sqlite3_exec(db, [[NSString stringWithFormat:createsql,tablename] UTF8String], NULL, NULL, nil);
             createTableWithData(array[i], tablename, self);
+            dispatch_async(dispatch_get_main_queue(), ^{
+                _loadHUD.progress = i/26.0;
+            });
         }
+        dispatch_async(dispatch_get_main_queue(), ^{
+            [_loadHUD hideAnimated:YES];
+            _loadHUD = nil;
+        });
         [[NSUserDefaults standardUserDefaults] setValue:@(YES) forKey:@"Accomplished"];
     });
 }
@@ -140,9 +152,7 @@ static void insertLocalDataWord(sqlite3_stmt * stmt ,NSString * word, NSString *
     sqlite3_bind_int(stmt, 4, lookupnum);
     
     if (sqlite3_step(stmt) != SQLITE_DONE) {
-        NSLog(@"Insert failed-%@",word);
-    }else {
-        NSLog(@"%@",word);
+        NSLog(@"Insert failed,%@",word);
     }
 }
 
