@@ -74,8 +74,8 @@ static NSString * updateHistorySql = @"update history_table set lookupnum = ? WH
             rt.word = [NSString stringWithUTF8String:(char *)sqlite3_column_text(stmt, 1)];
             rt.symbol = [NSString stringWithUTF8String:(char *)sqlite3_column_text(stmt, 2)];
             rt.explian = [NSString stringWithUTF8String:(char *)sqlite3_column_text(stmt, 3)];
-            rt.lookupNum = sqlite3_column_int(stmt, 4);
-            lookNum = rt.lookupNum+1;
+            rt.lookupNum = sqlite3_column_int(stmt, 4) + 1;
+            lookNum = rt.lookupNum;
             result(rt);
             break;
         }

@@ -10,6 +10,7 @@
 #import "LVWord.h"
 #import "Global.h"
 #import "UIView+GetRect.h"
+#import "NSString+LVAdd.h"
 
 @implementation LVView
 
@@ -36,9 +37,14 @@
     
     self.wordLabel.text = wordDetail.word;
     self.symbolLabel.text = wordDetail.symbol;
-    self.explainView.text = wordDetail.explian;
+    NSString * looknum = @"";
+    if (wordDetail.lookupNum > 1) {
+        looknum = [NSString stringWithFormat:@"（以查询%d次）",wordDetail.lookupNum];
+    }
     
-    CGFloat height = [wordDetail.explian boundingRectWithSize:CGSizeMake(self.lvWidth, CGFLOAT_MAX) options:NSStringDrawingUsesFontLeading|NSStringDrawingUsesLineFragmentOrigin attributes:@{NSFontAttributeName:[UIFont boldSystemFontOfSize:20]} context:nil].size.height;
+    NSString * string = [NSString stringWithFormat:@"%@%@",wordDetail.word,looknum];
+    CGFloat height = [string heightWithConstrainSize:CGSizeMake(self.lvWidth, CGFLOAT_MAX) attribute:@{NSFontAttributeName:[UIFont boldSystemFontOfSize:20]}];
+    self.explainView.text = string;
     self.explainView.lvHeight = height;
     self.contentSize = CGSizeMake(self.lvWidth, 70+height+10);
 }
