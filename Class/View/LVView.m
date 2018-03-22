@@ -39,11 +39,12 @@
     self.symbolLabel.text = wordDetail.symbol;
     NSString * looknum = @"";
     if (wordDetail.lookupNum > 1) {
-        looknum = [NSString stringWithFormat:@"（以查询%d次）",wordDetail.lookupNum];
+        looknum = [NSString stringWithFormat:@"(已查询%d次)",wordDetail.lookupNum];
     }
     
-    NSString * string = [NSString stringWithFormat:@"%@%@",wordDetail.word,looknum];
+    NSString * string = [NSString stringWithFormat:@"%@%@",wordDetail.explian,looknum];
     CGFloat height = [string heightWithConstrainSize:CGSizeMake(self.lvWidth, CGFLOAT_MAX) attribute:@{NSFontAttributeName:[UIFont boldSystemFontOfSize:20]}];
+    height += 22;
     self.explainView.text = string;
     self.explainView.lvHeight = height;
     self.contentSize = CGSizeMake(self.lvWidth, 70+height+10);
@@ -69,11 +70,13 @@
 
 - (UITextView *)explainView {
     if (!_explainView) {
-        _explainView = [[UITextView alloc] initWithFrame:CGRectMake(0, _symbolLabel.lvBottom + 5, self.lvWidth, 40)];
+        _explainView = [[UITextView alloc] initWithFrame:CGRectMake(0, _symbolLabel.lvBottom + 5, self.lvWidth, 0)];
         _explainView.textColor = Color2;
         _explainView.scrollEnabled = NO;
-        _explainView.backgroundColor = BgColor;
+        _explainView.backgroundColor = [UIColor whiteColor];
         _explainView.font = [UIFont boldSystemFontOfSize:20];
+        _explainView.showsVerticalScrollIndicator = NO;
+        _explainView.showsHorizontalScrollIndicator = NO;
     }
     return _explainView;
 }

@@ -7,12 +7,20 @@
 //
 
 #import "NSString+LVAdd.h"
+#import <UIKit/NSStringDrawing.h>
 
 @implementation NSString (LVAdd)
 
 - (CGFloat)heightWithConstrainSize:(CGSize)size attribute:(NSDictionary *)attr {
+    NSLog(@"\n计算:%@",self);
     CGFloat height = 0;
-    NSString * string = [self stringByReplacingOccurrencesOfString:@"\r" withString:@""];
+    NSArray * stringArray = [self componentsSeparatedByCharactersInSet:[NSCharacterSet characterSetWithCharactersInString:@"\n\r"]];
+    for (NSString * str in stringArray) {
+        NSLog(@"%@",str);
+        if (str.length > 0) {
+            height += [str boundingRectWithSize:size options:NSStringDrawingUsesLineFragmentOrigin|NSStringDrawingUsesFontLeading attributes:attr context:nil].size.height;
+        }
+    }
     return height;
 }
 
