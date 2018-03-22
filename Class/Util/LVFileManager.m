@@ -15,6 +15,12 @@ static const char * dbpath = "";
 static NSString * createsql = @"create table if not exists %@(id integer primary key autoincrement, word text, symbol text, explian text, lookupnum integer)";
 static NSString * insertsql = @"insert into %@(word, symbol, explian, lookupnum) values(?,?,?,?)";
 static NSString * querysql = @"select * from %@_table where word = '%@' COLLATE NOCASE;";
+static NSString * updatesql = @"update %@_table set lookupnum = ? WHERE word = '%@'";
+
+static NSString * createHistorySql = @"create table if not exists history_table(word text primary key, symbol text, explian text, lookupnum integer)";
+static NSString * insertHistorySql = @"insert into history_table(word, symbol, explian, lookupnum) values(?,?,?,?)";
+static NSString * queryHistorySql = @"select * from history_table";
+static NSString * updateHistorySql = @"update history_table set lookupnum = ? WHERE word = '%@'";
 
 @interface LVFileManager()<MBProgressHUDDelegate> {
     sqlite3 * db;
@@ -48,6 +54,8 @@ static NSString * querysql = @"select * from %@_table where word = '%@' COLLATE 
         dbpath = [[dbPath stringByAppendingPathComponent:@"word.db"] UTF8String];
         sqlite3_open(dbpath, &db);
     }
+    int result = sqlite3_exec(db, [createHistorySql UTF8String], NULL, NULL, nil);
+    NSLog(@"%d",result);
     return complished;
 }
 
@@ -72,6 +80,10 @@ static NSString * querysql = @"select * from %@_table where word = '%@' COLLATE 
         }
     }
     sqlite3_finalize(stmt);
+}
+
+- (void)histroyRecord:(LVWordDetail *)word {
+    
 }
 
 #pragma mark - Private Method
