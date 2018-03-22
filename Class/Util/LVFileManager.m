@@ -15,7 +15,7 @@ static const char * dbpath = "";
 static NSString * createsql = @"create table if not exists %@(id integer primary key autoincrement, word text, symbol text, explian text, lookupnum integer)";
 static NSString * insertsql = @"insert into %@(word, symbol, explian, lookupnum) values(?,?,?,?)";
 static NSString * querysql = @"select * from %@_table where word = '%@' COLLATE NOCASE;";
-static NSString * updatesql = @"update %@_table set lookupnum = ? WHERE word = '%@'";
+static NSString * updatesql = @"update %@_table set lookupnum = %d WHERE word = '%@' COLLATE NOCASE";
 
 static NSString * createHistorySql = @"create table if not exists history_table(word text primary key, symbol text, explian text, lookupnum integer)";
 static NSString * insertHistorySql = @"insert into history_table(word, symbol, explian, lookupnum) values(?,?,?,?)";
@@ -53,15 +53,15 @@ static NSString * updateHistorySql = @"update history_table set lookupnum = ? WH
         NSString * dbPath = [[NSHomeDirectory() stringByAppendingPathComponent:@"Documents"] stringByAppendingPathComponent:@"Data"];
         dbpath = [[dbPath stringByAppendingPathComponent:@"word.db"] UTF8String];
         sqlite3_open(dbpath, &db);
+        sqlite3_exec(db, [createHistorySql UTF8String], NULL, NULL, nil);
     }
-    int result = sqlite3_exec(db, [createHistorySql UTF8String], NULL, NULL, nil);
-    NSLog(@"%d",result);
     return complished;
 }
 
 - (void)searchWord:(NSString *)word result:(lookupReult)result{
     if (word.length == 0) return;
     
+    int lookNum = -1;
     int code = [word characterAtIndex:0];
     code += code<97 ? 32:0;
     NSString * prefix = [NSString stringWithFormat:@"%c",code];
@@ -75,10 +75,24 @@ static NSString * updateHistorySql = @"update history_table set lookupnum = ? WH
             rt.symbol = [NSString stringWithUTF8String:(char *)sqlite3_column_text(stmt, 2)];
             rt.explian = [NSString stringWithUTF8String:(char *)sqlite3_column_text(stmt, 3)];
             rt.lookupNum = sqlite3_column_int(stmt, 4);
+            lookNum = rt.lookupNum+1;
             result(rt);
             break;
         }
     }
+    sqlite3_finalize(stmt);
+    if (lookNum > 0) {
+        updateLocalData(db, prefix, word, lookNum);
+    }
+}
+
+static void updateLocalData(sqlite3 * db, NSString * tableName, NSString * word, int lookupnum) {
+    sqlite3_stmt * stmt;
+    NSString * sql = [NSString stringWithFormat:updatesql,tableName,lookupnum,word];
+    int rt = sqlite3_prepare_v2(db, [sql UTF8String], -1, &stmt, NULL);
+    if (rt != SQLITE_OK) return;
+    sqlite3_bind_int(stmt, 4, lookupnum);
+    sqlite3_step(stmt);
     sqlite3_finalize(stmt);
 }
 
@@ -126,11 +140,14 @@ static NSString * updateHistorySql = @"update history_table set lookupnum = ? WH
                 _loadHUD.progress = i/26.0;
             });
         }
+        
+        sqlite3_exec(db, [createHistorySql UTF8String], NULL, NULL, nil);
+        
         dispatch_async(dispatch_get_main_queue(), ^{
             [_loadHUD hideAnimated:YES];
             _loadHUD = nil;
+            [[NSUserDefaults standardUserDefaults] setValue:@(YES) forKey:@"Accomplished"];
         });
-        [[NSUserDefaults standardUserDefaults] setValue:@(YES) forKey:@"Accomplished"];
     });
 }
 
@@ -148,7 +165,7 @@ static void createTableWithData(NSArray * data , NSString * tablename, LVFileMan
                 [divideData addObject:[item substringWithRange:NSMakeRange(result.range.location, result.range.length)]];
                 [divideData addObject:[item substringWithRange:NSMakeRange(result.range.location+result.range.length, item.length-(result.range.location+result.range.length))]];
             }];
-            insertLocalDataWord(stmt ,divideData[0], divideData[1], divideData[2], 1, this->db);
+            insertLocalDataWord(stmt ,divideData[0], divideData[1], divideData[2], 0, this->db);
         }
     }
     
