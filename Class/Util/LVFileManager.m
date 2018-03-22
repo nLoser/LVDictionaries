@@ -61,7 +61,7 @@ static NSString * updateHistorySql = @"update history_table set lookupnum = ? WH
 - (void)searchWord:(NSString *)word result:(lookupReult)result{
     if (word.length == 0) return;
     
-    int lookNum = -1;
+    LVWordDetail * rt = nil;
     int code = [word characterAtIndex:0];
     code += code<97 ? 32:0;
     NSString * prefix = [NSString stringWithFormat:@"%c",code];
@@ -70,30 +70,19 @@ static NSString * updateHistorySql = @"update history_table set lookupnum = ? WH
     sqlite3_stmt * stmt;
     if (sqlite3_prepare_v2(db, sql, -1, &stmt, NULL) == SQLITE_OK) {
         while (sqlite3_step(stmt) == SQLITE_ROW) {
-            LVWordDetail * rt = [LVWordDetail new];
+            rt = [LVWordDetail new];
             rt.word = [NSString stringWithUTF8String:(char *)sqlite3_column_text(stmt, 1)];
             rt.symbol = [NSString stringWithUTF8String:(char *)sqlite3_column_text(stmt, 2)];
             rt.explian = [NSString stringWithUTF8String:(char *)sqlite3_column_text(stmt, 3)];
             rt.lookupNum = sqlite3_column_int(stmt, 4) + 1;
-            lookNum = rt.lookupNum;
             result(rt);
             break;
         }
     }
     sqlite3_finalize(stmt);
-    if (lookNum > 0) {
-        updateLocalData(db, prefix, word, lookNum);
+    if (rt.lookupNum > 0) {
+        updateLocalData(db, prefix, word, rt.symbol, rt.explian, rt.lookupNum);
     }
-}
-
-static void updateLocalData(sqlite3 * db, NSString * tableName, NSString * word, int lookupnum) {
-    sqlite3_stmt * stmt;
-    NSString * sql = [NSString stringWithFormat:updatesql,tableName,lookupnum,word];
-    int rt = sqlite3_prepare_v2(db, [sql UTF8String], -1, &stmt, NULL);
-    if (rt != SQLITE_OK) return;
-    sqlite3_bind_int(stmt, 4, lookupnum);
-    sqlite3_step(stmt);
-    sqlite3_finalize(stmt);
 }
 
 - (void)histroyRecord:(LVWordDetail *)word {
@@ -183,6 +172,46 @@ static void insertLocalDataWord(sqlite3_stmt * stmt ,NSString * word, NSString *
     if (sqlite3_step(stmt) != SQLITE_DONE) {
         NSLog(@"Insert failed,%@",word);
     }
+}
+
+static void updateLocalData(sqlite3 * db, NSString * tableName, NSString * word, NSString * symbol, NSString * explian, int lookupnum) {
+    sqlite3_exec(db, "begin", 0, 0, 0);
+    
+    sqlite3_stmt * stmt;
+    NSString * sql = [NSString stringWithFormat:updatesql,tableName,lookupnum,word];
+    int rt = sqlite3_prepare_v2(db, [sql UTF8String], -1, &stmt, NULL);
+    if (rt != SQLITE_OK) return;
+    sqlite3_bind_int(stmt, 4, lookupnum);
+    sqlite3_step(stmt);
+    
+    
+    BOOL find = NO;
+    sqlite3_reset(stmt);
+    if (sqlite3_prepare_v2(db, [[NSString stringWithFormat:queryHistorySql,word] UTF8String], -1, &stmt, NULL)) {
+        while (sqlite3_step(stmt) == SQLITE_ROW) {
+            find = YES;
+            break;
+        }
+    }
+    if (find) {
+        //TODO:置顶
+    }else {
+        sqlite3_reset(stmt);
+        const char * insert = [insertHistorySql UTF8String];
+        sqlite3_prepare_v2(db, insert, -1, &stmt, NULL);
+        
+        sqlite3_bind_text(stmt, 0, [word UTF8String], -1, NULL);
+        sqlite3_bind_text(stmt, 1, [word UTF8String], -1, NULL);
+        sqlite3_bind_text(stmt, 2, [word UTF8String], -1, NULL);
+        sqlite3_bind_int(stmt, 3, lookupnum);
+        
+        if (sqlite3_step(stmt) != SQLITE_DONE) {
+            NSLog(@"Insert failed,%@",word);
+        }
+    }
+    
+    sqlite3_exec(db, "commit", 0, 0, 0);
+    sqlite3_finalize(stmt);
 }
 
 @end
