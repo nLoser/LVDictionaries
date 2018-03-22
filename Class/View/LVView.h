@@ -16,3 +16,7 @@
 @interface LVWordDetailView : UIScrollView
 @property (nonatomic) LVWordDetail * wordDetail;
 @end
+
+@interface LVHistoryCell : UITableViewCell
+@property (nonatomic) LVWordDetail * wordDetail;
+@end

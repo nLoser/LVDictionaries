@@ -9,6 +9,7 @@
 /* Begin PBXBuildFile section */
 		342963EB68A57FED7C5D2D24 /* libPods-LVDictionaries.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 07CB6BF19995D6ADDF7836E7 /* libPods-LVDictionaries.a */; };
 		A9092BA420635F4D002DDACB /* NSString+LVAdd.m in Sources */ = {isa = PBXBuildFile; fileRef = A9092BA320635F4D002DDACB /* NSString+LVAdd.m */; };
+		A9092BA720638D68002DDACB /* HistoryController.m in Sources */ = {isa = PBXBuildFile; fileRef = A9092BA620638D68002DDACB /* HistoryController.m */; };
 		A959EBB5205F4F7F001D0748 /* AppDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = A959EBB4205F4F7F001D0748 /* AppDelegate.m */; };
 		A959EBC3205F4F7F001D0748 /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = A959EBC2205F4F7F001D0748 /* main.m */; };
 		A959EBCB205F502F001D0748 /* vocabulary.txt in Resources */ = {isa = PBXBuildFile; fileRef = A959EBCA205F502F001D0748 /* vocabulary.txt */; };
@@ -29,6 +30,8 @@
 		5059140769D14D1AA95E966E /* Pods-LVDictionaries.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-LVDictionaries.release.xcconfig"; path = "Pods/Target Support Files/Pods-LVDictionaries/Pods-LVDictionaries.release.xcconfig"; sourceTree = "<group>"; };
 		A9092BA220635F4D002DDACB /* NSString+LVAdd.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "NSString+LVAdd.h"; sourceTree = "<group>"; };
 		A9092BA320635F4D002DDACB /* NSString+LVAdd.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = "NSString+LVAdd.m"; sourceTree = "<group>"; };
+		A9092BA520638D68002DDACB /* HistoryController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = HistoryController.h; sourceTree = "<group>"; };
+		A9092BA620638D68002DDACB /* HistoryController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = HistoryController.m; sourceTree = "<group>"; };
 		A959EBB0205F4F7F001D0748 /* LVDictionaries.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = LVDictionaries.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		A959EBB3205F4F7F001D0748 /* AppDelegate.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = AppDelegate.h; sourceTree = "<group>"; };
 		A959EBB4205F4F7F001D0748 /* AppDelegate.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = AppDelegate.m; sourceTree = "<group>"; };
@@ -140,6 +143,8 @@
 			children = (
 				A959EBDF205F60D2001D0748 /* LookupController.h */,
 				A959EBE0205F60D2001D0748 /* LookupController.m */,
+				A9092BA520638D68002DDACB /* HistoryController.h */,
+				A9092BA620638D68002DDACB /* HistoryController.m */,
 			);
 			path = ViewController;
 			sourceTree = "<group>";
@@ -315,6 +320,7 @@
 			files = (
 				A959EBEC205FBC4D001D0748 /* LVView.m in Sources */,
 				A959EBD4205F51AD001D0748 /* LVVCControl.m in Sources */,
+				A9092BA720638D68002DDACB /* HistoryController.m in Sources */,
 				A959EBE8205FB135001D0748 /* LVWord.m in Sources */,
 				A95F1E772061101200C76BF4 /* LVQueuePool.m in Sources */,
 				A959EBE1205F60D2001D0748 /* LookupController.m in Sources */,

@@ -8,12 +8,19 @@
 
 #import "LVVCControl.h"
 #import "LookupController.h"
+#import "HistoryController.h"
 
 @implementation LVVCControl
 
 + (UIViewController *)LoopupController {
     LookupController * vc = [[LookupController alloc] init];
     vc.title = @"Loopup";
+    return vc;
+}
+
++ (UIViewController *)HistoryController {
+    HistoryController * vc = [[HistoryController alloc] init];
+    vc.title = @"history";
     return vc;
 }
 

@@ -16,6 +16,7 @@
 @interface LookupController ()<UITextFieldDelegate>
 @property (nonatomic, strong) UITextField * lookupField;
 @property (nonatomic, strong) LVWordDetailView * wordDetailView;
+@property (nonatomic, strong) UIButton * button;
 @end
 
 @implementation LookupController
@@ -38,7 +39,17 @@
 - (void)setupUI {
     [self.view addSubview:self.lookupField];
     [self.view addSubview:self.wordDetailView];
+    self.button = [UIButton buttonWithType:UIButtonTypeCustom];
+    self.button.frame = self.lookupField.frame;
+    self.button.lvBottom = 400;
+    [self.button addTarget:self action:@selector(tap) forControlEvents:UIControlEventTouchUpInside];
+    self.button.backgroundColor = [UIColor whiteColor];
+    [self.view addSubview:self.button];
     [self.view addGestureRecognizer:[[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(downKeyborad)]];
+}
+
+- (void)tap {
+    [self presentViewController:[LVVCControl HistoryController] animated:YES completion:nil];
 }
 
 #pragma mark - Target Action

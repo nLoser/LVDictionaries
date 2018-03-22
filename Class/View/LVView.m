@@ -80,5 +80,37 @@
     }
     return _explainView;
 }
+@end
+
+@interface LVHistoryCell()
+@property (nonatomic, strong) UILabel * contentLabel;
+@end
+@implementation LVHistoryCell
+- (instancetype)initWithStyle:(UITableViewCellStyle)style reuseIdentifier:(NSString *)reuseIdentifier {
+    if (self = [super initWithStyle:style reuseIdentifier:reuseIdentifier]) {
+        [self.contentView addSubview:self.contentLabel];
+    }
+    return self;
+}
+
+- (void)layoutSubviews {
+    [super layoutSubviews];
+    self.contentLabel.frame = self.contentView.bounds;
+}
+
+#pragma mark - Setter
+
+- (void)setWordDetail:(LVWordDetail *)wordDetail {
+    _contentLabel.text = wordDetail.word;
+}
+
+#pragma mark - Getter
+
+- (UILabel *)contentLabel {
+    if (!_contentLabel) {
+        _contentLabel = [[UILabel alloc] init];
+    }
+    return _contentLabel;
+}
 
 @end

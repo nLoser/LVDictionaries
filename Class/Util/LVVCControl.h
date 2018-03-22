@@ -10,7 +10,6 @@
 #import <UIKit/UIViewController.h>
 
 @interface LVVCControl : NSObject
-
 + (UIViewController *)LoopupController;
-
++ (UIViewController *)HistoryController;
 @end
