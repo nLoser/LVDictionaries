@@ -89,6 +89,7 @@
 - (instancetype)initWithStyle:(UITableViewCellStyle)style reuseIdentifier:(NSString *)reuseIdentifier {
     if (self = [super initWithStyle:style reuseIdentifier:reuseIdentifier]) {
         [self.contentView addSubview:self.contentLabel];
+        self.contentView.backgroundColor = BgColor;
     }
     return self;
 }
@@ -101,7 +102,7 @@
 #pragma mark - Setter
 
 - (void)setWordDetail:(LVWordDetail *)wordDetail {
-    _contentLabel.text = wordDetail.word;
+    _contentLabel.text = [NSString stringWithFormat:@"%@ %@ %@",wordDetail.word,wordDetail.symbol,wordDetail.explian];
 }
 
 #pragma mark - Getter

@@ -15,5 +15,5 @@ typedef void(^lookupReult) (LVWordDetail *);
 + (instancetype)shareDefault;
 - (BOOL)checkLocalDatabase;
 - (void)searchWord:(NSString *)word result:(lookupReult)result;
-- (void)histroyRecord:(LVWordDetail *)word;
+- (NSArray<LVWordDetail *> *)histroyRecord;
 @end

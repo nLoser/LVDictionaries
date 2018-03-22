@@ -17,9 +17,9 @@ static NSString * insertsql = @"insert into %@(word, symbol, explian, lookupnum)
 static NSString * querysql = @"select * from %@_table where word = '%@' COLLATE NOCASE;";
 static NSString * updatesql = @"update %@_table set lookupnum = %d WHERE word = '%@' COLLATE NOCASE";
 
-static NSString * createHistorySql = @"create table if not exists history_table(word text primary key, symbol text, explian text, lookupnum integer)";
+static NSString * createHistorySql = @"create table if not exists history_table(id integer primary key autoincrement,word text, symbol text, explian text, lookupnum integer)";
 static NSString * insertHistorySql = @"insert into history_table(word, symbol, explian, lookupnum) values(?,?,?,?)";
-static NSString * queryHistorySql = @"select * from history_table";
+static NSString * queryHistorySql = @"select * from history_table WHERE word = '%@' COLLATE NOCASE";
 static NSString * updateHistorySql = @"update history_table set lookupnum = ? WHERE word = '%@'";
 
 @interface LVFileManager()<MBProgressHUDDelegate> {
@@ -85,8 +85,25 @@ static NSString * updateHistorySql = @"update history_table set lookupnum = ? WH
     }
 }
 
-- (void)histroyRecord:(LVWordDetail *)word {
+- (NSArray<LVWordDetail *> *)histroyRecord {
+    sqlite3_exec(db, "begin", 0, 0, 0);
     
+    NSMutableArray * array = [NSMutableArray array];
+    sqlite3_stmt * stmt;
+    if (sqlite3_prepare_v2(db, "select * from history_table", -1, &stmt, NULL) == SQLITE_OK) {
+        while (sqlite3_step(stmt) == SQLITE_ROW) {
+            @autoreleasepool {
+                LVWordDetail * item = [LVWordDetail new];
+                item.word = [NSString stringWithUTF8String:(char *)sqlite3_column_text(stmt, 1)];
+                item.symbol = [NSString stringWithUTF8String:(char *)sqlite3_column_text(stmt, 2)];
+                item.explian = [NSString stringWithUTF8String:(char *)sqlite3_column_text(stmt, 3)];
+                item.lookupNum = sqlite3_column_int(stmt, 4);
+                [array addObject:item];
+            }
+        }
+    }
+    sqlite3_exec(db, "commit", 0, 0, 0);
+    return array.copy;
 }
 
 #pragma mark - Private Method
@@ -187,7 +204,8 @@ static void updateLocalData(sqlite3 * db, NSString * tableName, NSString * word,
     
     BOOL find = NO;
     sqlite3_reset(stmt);
-    if (sqlite3_prepare_v2(db, [[NSString stringWithFormat:queryHistorySql,word] UTF8String], -1, &stmt, NULL)) {
+    const char * querysqlString = [[NSString stringWithFormat:queryHistorySql,word] UTF8String];
+    if (sqlite3_prepare_v2(db, querysqlString, -1, &stmt, NULL) == SQLITE_OK) {
         while (sqlite3_step(stmt) == SQLITE_ROW) {
             find = YES;
             break;
@@ -200,10 +218,10 @@ static void updateLocalData(sqlite3 * db, NSString * tableName, NSString * word,
         const char * insert = [insertHistorySql UTF8String];
         sqlite3_prepare_v2(db, insert, -1, &stmt, NULL);
         
-        sqlite3_bind_text(stmt, 0, [word UTF8String], -1, NULL);
         sqlite3_bind_text(stmt, 1, [word UTF8String], -1, NULL);
-        sqlite3_bind_text(stmt, 2, [word UTF8String], -1, NULL);
-        sqlite3_bind_int(stmt, 3, lookupnum);
+        sqlite3_bind_text(stmt, 2, [symbol UTF8String], -1, NULL);
+        sqlite3_bind_text(stmt, 3, [explian UTF8String], -1, NULL);
+        sqlite3_bind_int(stmt, 4, lookupnum);
         
         if (sqlite3_step(stmt) != SQLITE_DONE) {
             NSLog(@"Insert failed,%@",word);
