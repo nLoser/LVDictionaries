@@ -15,7 +15,10 @@
 + (UIViewController *)LoopupController {
     LookupController * vc = [[LookupController alloc] init];
     vc.title = @"Loopup";
-    return vc;
+    UINavigationController * nc = [[UINavigationController alloc] initWithRootViewController:vc];
+    //[nc setNavigationBarHidden:YES];
+    nc.navigationBar.hidden = YES;
+    return nc;
 }
 
 + (UIViewController *)HistoryController {

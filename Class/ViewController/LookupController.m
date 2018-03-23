@@ -49,7 +49,7 @@
 }
 
 - (void)tap {
-    [self presentViewController:[LVVCControl HistoryController] animated:YES completion:nil];
+    [self.navigationController pushViewController:[LVVCControl HistoryController] animated:YES];
 }
 
 #pragma mark - Target Action
