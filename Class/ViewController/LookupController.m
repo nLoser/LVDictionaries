@@ -84,6 +84,7 @@
         _lookupField.returnKeyType = UIReturnKeySearch;
         _lookupField.placeholder = @"look up";
         _lookupField.delegate = self;
+        _lookupField.clearButtonMode = UITextFieldViewModeAlways;
     }
     return _lookupField;
 }
