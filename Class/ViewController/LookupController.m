@@ -9,11 +9,14 @@
 #import "LookupController.h"
 #import "LVVCControl.h"
 #import "LVFileManager.h"
+#import "UIView+GetRect.h"
+#import "LVViewControllerAnimationTransition.h"
+
 #import "Global.h"
 #import "LVView.h"
-#import "UIView+GetRect.h"
 
-@interface LookupController ()<UITextFieldDelegate>
+@interface LookupController ()<UITextFieldDelegate,UINavigationControllerDelegate>
+@property (nonatomic, strong) LVViewControllerAnimationTransition * vcTransition;
 @property (nonatomic, strong) UITextField * lookupField;
 @property (nonatomic, strong) LVWordDetailView * wordDetailView;
 @property (nonatomic, strong) UIButton * button;
@@ -26,6 +29,9 @@
     self.view.backgroundColor = BgColor;
     
     [self setupUI];
+    
+    _vcTransition = [[LVViewControllerAnimationTransition alloc] init];
+    self.navigationController.delegate = self;
 }
 
 - (void)viewDidAppear:(BOOL)animated {
@@ -56,6 +62,23 @@
 
 - (void)downKeyborad {
     [self.lookupField resignFirstResponder];
+}
+
+#pragma mark - <UINavigationControllerDelegate>
+
+- (id<UIViewControllerAnimatedTransitioning>)navigationController:(UINavigationController *)navigationController
+                                  animationControllerForOperation:(UINavigationControllerOperation)operation
+                                               fromViewController:(UIViewController *)fromVC
+                                                 toViewController:(UIViewController *)toVC {
+    if (operation == UINavigationControllerOperationPush) {
+        _vcTransition.isPush = YES;
+        return _vcTransition;
+    }else if (operation == UINavigationControllerOperationPop) {
+        _vcTransition.isPush = NO;
+        return _vcTransition;
+    }else {
+        return nil;
+    }
 }
 
 #pragma mark - <UITextFieldDelegate>

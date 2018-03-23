@@ -21,19 +21,16 @@
 
 - (void)viewDidLoad {
     [super viewDidLoad];
-    
-    _dataSource = [NSMutableArray array];
-    
-    self.view.backgroundColor = Color1;
-    [self.view addGestureRecognizer:[[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(tap)]];
-    
-    [self.view addSubview:self.tableView];
+    [self setupUI];
 }
 
 - (void)viewDidAppear:(BOOL)animated {
     [super viewDidAppear:animated];
-    [_dataSource addObjectsFromArray:[[LVFileManager shareDefault] histroyRecord]];
-    [self.tableView reloadData];
+    if (!_dataSource) {
+        _dataSource = [NSMutableArray array];
+        [_dataSource addObjectsFromArray:[[LVFileManager shareDefault] histroyRecord]];
+        [self.tableView reloadData];
+    }
 }
 
 #pragma mark - <TableViewDelegate>
@@ -46,6 +43,14 @@
 
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section {
     return _dataSource.count;
+}
+
+#pragma mark - Private
+
+- (void)setupUI {
+    self.view.backgroundColor = Color1;
+    [self.view addGestureRecognizer:[[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(tap)]];
+    [self.view addSubview:self.tableView];
 }
 
 #pragma mark - Getter
@@ -64,7 +69,7 @@
 }
 
 - (void)tap {
-    [self dismissViewControllerAnimated:YES completion:nil];
+    [self.navigationController popViewControllerAnimated:YES];
 }
 
 @end

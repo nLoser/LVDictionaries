@@ -10,7 +10,7 @@
 		342963EB68A57FED7C5D2D24 /* libPods-LVDictionaries.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 07CB6BF19995D6ADDF7836E7 /* libPods-LVDictionaries.a */; };
 		A9092BA420635F4D002DDACB /* NSString+LVAdd.m in Sources */ = {isa = PBXBuildFile; fileRef = A9092BA320635F4D002DDACB /* NSString+LVAdd.m */; };
 		A9092BA720638D68002DDACB /* HistoryController.m in Sources */ = {isa = PBXBuildFile; fileRef = A9092BA620638D68002DDACB /* HistoryController.m */; };
-		A929118E20652F9C0068DBE2 /* LVPushTransition.m in Sources */ = {isa = PBXBuildFile; fileRef = A929118D20652F9C0068DBE2 /* LVPushTransition.m */; };
+		A929118E20652F9C0068DBE2 /* LVViewControllerAnimationTransition.m in Sources */ = {isa = PBXBuildFile; fileRef = A929118D20652F9C0068DBE2 /* LVViewControllerAnimationTransition.m */; };
 		A959EBB5205F4F7F001D0748 /* AppDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = A959EBB4205F4F7F001D0748 /* AppDelegate.m */; };
 		A959EBC3205F4F7F001D0748 /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = A959EBC2205F4F7F001D0748 /* main.m */; };
 		A959EBCB205F502F001D0748 /* vocabulary.txt in Resources */ = {isa = PBXBuildFile; fileRef = A959EBCA205F502F001D0748 /* vocabulary.txt */; };
@@ -33,8 +33,8 @@
 		A9092BA320635F4D002DDACB /* NSString+LVAdd.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = "NSString+LVAdd.m"; sourceTree = "<group>"; };
 		A9092BA520638D68002DDACB /* HistoryController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = HistoryController.h; sourceTree = "<group>"; };
 		A9092BA620638D68002DDACB /* HistoryController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = HistoryController.m; sourceTree = "<group>"; };
-		A929118C20652F9C0068DBE2 /* LVPushTransition.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = LVPushTransition.h; sourceTree = "<group>"; };
-		A929118D20652F9C0068DBE2 /* LVPushTransition.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = LVPushTransition.m; sourceTree = "<group>"; };
+		A929118C20652F9C0068DBE2 /* LVViewControllerAnimationTransition.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = LVViewControllerAnimationTransition.h; sourceTree = "<group>"; };
+		A929118D20652F9C0068DBE2 /* LVViewControllerAnimationTransition.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = LVViewControllerAnimationTransition.m; sourceTree = "<group>"; };
 		A959EBB0205F4F7F001D0748 /* LVDictionaries.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = LVDictionaries.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		A959EBB3205F4F7F001D0748 /* AppDelegate.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = AppDelegate.h; sourceTree = "<group>"; };
 		A959EBB4205F4F7F001D0748 /* AppDelegate.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = AppDelegate.m; sourceTree = "<group>"; };
@@ -92,8 +92,8 @@
 		A929118B20652F6F0068DBE2 /* LVNavigation */ = {
 			isa = PBXGroup;
 			children = (
-				A929118C20652F9C0068DBE2 /* LVPushTransition.h */,
-				A929118D20652F9C0068DBE2 /* LVPushTransition.m */,
+				A929118C20652F9C0068DBE2 /* LVViewControllerAnimationTransition.h */,
+				A929118D20652F9C0068DBE2 /* LVViewControllerAnimationTransition.m */,
 			);
 			path = LVNavigation;
 			sourceTree = "<group>";
@@ -337,7 +337,7 @@
 				A959EBE8205FB135001D0748 /* LVWord.m in Sources */,
 				A95F1E772061101200C76BF4 /* LVQueuePool.m in Sources */,
 				A959EBE1205F60D2001D0748 /* LookupController.m in Sources */,
-				A929118E20652F9C0068DBE2 /* LVPushTransition.m in Sources */,
+				A929118E20652F9C0068DBE2 /* LVViewControllerAnimationTransition.m in Sources */,
 				A959EBE4205F62DC001D0748 /* LVFileManager.m in Sources */,
 				A959EBF0205FBE0E001D0748 /* UIView+GetRect.m in Sources */,
 				A959EBC3205F4F7F001D0748 /* main.m in Sources */,
