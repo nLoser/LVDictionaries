@@ -90,6 +90,7 @@
     if (self = [super initWithStyle:style reuseIdentifier:reuseIdentifier]) {
         [self.contentView addSubview:self.contentLabel];
         self.contentView.backgroundColor = BgColor;
+        self.selectionStyle = UITableViewCellSelectionStyleNone;
     }
     return self;
 }

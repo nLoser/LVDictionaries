@@ -56,7 +56,8 @@
         _tableView.backgroundColor = BgColor;
         _tableView.delegate = self;
         _tableView.dataSource = self;
-        _tableView.rowHeight = 40;
+        _tableView.rowHeight = 50;
+        _tableView.separatorStyle = UITableViewCellSeparatorStyleNone;
         [_tableView registerClass:[LVHistoryCell class] forCellReuseIdentifier:@"cell"];
     }
     return _tableView;
