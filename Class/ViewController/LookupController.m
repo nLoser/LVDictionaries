@@ -11,12 +11,14 @@
 #import "LVFileManager.h"
 #import "UIView+GetRect.h"
 #import "LVViewControllerAnimationTransition.h"
+#import "LVPercentDrivenInteractiveTransition.h"
 
 #import "Global.h"
 #import "LVView.h"
 
 @interface LookupController ()<UITextFieldDelegate,UINavigationControllerDelegate>
 @property (nonatomic, strong) LVViewControllerAnimationTransition * vcTransition;
+@property (nonatomic, strong) LVPercentDrivenInteractiveTransition * percentInteractiveTransition;
 @property (nonatomic, strong) UITextField * lookupField;
 @property (nonatomic, strong) LVWordDetailView * wordDetailView;
 @property (nonatomic, strong) UIButton * button;
@@ -31,6 +33,7 @@
     [self setupUI];
     
     _vcTransition = [[LVViewControllerAnimationTransition alloc] init];
+    _percentInteractiveTransition = [[LVPercentDrivenInteractiveTransition alloc] init];
     self.navigationController.delegate = self;
 }
 
@@ -55,7 +58,10 @@
 }
 
 - (void)tap {
-    [self.navigationController pushViewController:[LVVCControl HistoryController] animated:YES];
+    UIViewController * vc = [LVVCControl HistoryController];
+    [_percentInteractiveTransition writeToViewController:vc];
+    
+    [self.navigationController pushViewController:vc animated:YES];
 }
 
 #pragma mark - Target Action
@@ -79,6 +85,11 @@
     }else {
         return nil;
     }
+}
+
+- (id<UIViewControllerInteractiveTransitioning>)navigationController:(UINavigationController *)navigationController
+                         interactionControllerForAnimationController:(id<UIViewControllerAnimatedTransitioning>)animationController {
+    return _percentInteractiveTransition.isAnimating?_percentInteractiveTransition:nil;
 }
 
 #pragma mark - <UITextFieldDelegate>
