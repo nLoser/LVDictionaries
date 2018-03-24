@@ -60,7 +60,7 @@
                              fromVC.view.alpha = 1.0;
                          }];
     }
-    NSLog(@"\n%@\n%@",fromVC,toVC);
+    NSLog(@"fromVC:%@\ntoVC:%@",fromVC,toVC);
 }
 
 @end

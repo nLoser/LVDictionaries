@@ -37,7 +37,6 @@
         }else {
             _canReceive = NO;
         }
-        
         [self updateInteractiveTransition:panPoint.x / self.remVC.view.bounds.size.width];
     }else if (gesture.state == UIGestureRecognizerStateCancelled || gesture.state == UIGestureRecognizerStateEnded) {
         _isAnimating = NO;

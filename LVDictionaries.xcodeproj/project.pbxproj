@@ -34,6 +34,7 @@
 		A9092BA320635F4D002DDACB /* NSString+LVAdd.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = "NSString+LVAdd.m"; sourceTree = "<group>"; };
 		A9092BA520638D68002DDACB /* HistoryController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = HistoryController.h; sourceTree = "<group>"; };
 		A9092BA620638D68002DDACB /* HistoryController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = HistoryController.m; sourceTree = "<group>"; };
+		A926CD75206608A200892AD6 /* PrefixHeader.pch */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = PrefixHeader.pch; sourceTree = "<group>"; };
 		A929118C20652F9C0068DBE2 /* LVViewControllerAnimationTransition.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = LVViewControllerAnimationTransition.h; sourceTree = "<group>"; };
 		A929118D20652F9C0068DBE2 /* LVViewControllerAnimationTransition.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = LVViewControllerAnimationTransition.m; sourceTree = "<group>"; };
 		A929118F20653EAD0068DBE2 /* LVPercentDrivenInteractiveTransition.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = LVPercentDrivenInteractiveTransition.h; sourceTree = "<group>"; };
@@ -132,6 +133,7 @@
 				A959EBC2205F4F7F001D0748 /* main.m */,
 				A959EBD5205F5364001D0748 /* Launch Screen.storyboard */,
 				A959EBDD205F58AB001D0748 /* Assets.xcassets */,
+				A926CD75206608A200892AD6 /* PrefixHeader.pch */,
 			);
 			path = LVDictionaries;
 			sourceTree = "<group>";
@@ -467,6 +469,7 @@
 				ASSETCATALOG_COMPILER_LAUNCHIMAGE_NAME = LaunchImage;
 				CODE_SIGN_STYLE = Automatic;
 				DEVELOPMENT_TEAM = T4654Y4Z9R;
+				GCC_PREFIX_HEADER = /Users/LV/Documents/github/LVDictionaries/LVDictionaries/PrefixHeader.pch;
 				INFOPLIST_FILE = LVDictionaries/Info.plist;
 				IPHONEOS_DEPLOYMENT_TARGET = 8.0;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
@@ -484,6 +487,7 @@
 				ASSETCATALOG_COMPILER_LAUNCHIMAGE_NAME = LaunchImage;
 				CODE_SIGN_STYLE = Automatic;
 				DEVELOPMENT_TEAM = T4654Y4Z9R;
+				GCC_PREFIX_HEADER = /Users/LV/Documents/github/LVDictionaries/LVDictionaries/PrefixHeader.pch;
 				INFOPLIST_FILE = LVDictionaries/Info.plist;
 				IPHONEOS_DEPLOYMENT_TARGET = 8.0;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
