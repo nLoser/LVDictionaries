@@ -56,11 +56,10 @@
                              toVC.view.frame = finalFrameForVC;
                          }
                          completion:^(BOOL finished) {
-                             [transitionContext completeTransition:YES];
+                             [transitionContext completeTransition:![transitionContext transitionWasCancelled]];
                              fromVC.view.alpha = 1.0;
                          }];
     }
-    NSLog(@"fromVC:%@\ntoVC:%@",fromVC,toVC);
 }
 
 @end
